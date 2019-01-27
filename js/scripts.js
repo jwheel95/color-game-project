@@ -1,15 +1,54 @@
-let colors = generateRandomColors(6);
+let numSquares = 6;
+let colors = generateRandomColors(numSquares);
 
-let squares = document.querySelectorAll(".square");
+//Query Selectors
+const squares = document.querySelectorAll(".square");
+const colorDisplay = document.querySelector("#colorDisplay");
+const messageDisplay = document.querySelector("#message");
+const h1 = document.querySelector("h1");
+const resetButton = document.querySelector("#reset");
+const easyBtn = document.querySelector("#easyBtn");
+const hardBtn = document.querySelector("#hardBtn");
+
+//Easy Mode
+easyBtn.addEventListener("click", function(){
+    easyBtn.classList.add("selected");
+    hardBtn.classList.remove("selected");
+    numSquares = 3;
+    colors = generateRandomColors(numSquares);
+    pickedColor = pickColor();
+    colorDisplay.textContent = pickedColor;
+    for(i = 0; i < squares.length; i++) {
+        if(colors[i]){
+            squares[i].style.backgroundColor = colors[i];
+        } else {
+            squares[i].style.display = "none";
+        }
+    }
+});
+
+//Hard Mode
+hardBtn.addEventListener("click", function(){
+    hardBtn.classList.add("selected");
+    easyBtn.classList.remove("selected");
+    numSquares = 6;
+    colors = generateRandomColors(numSquares);
+    pickedColor = pickColor();
+    colorDisplay.textContent = pickedColor;
+    for(i = 0; i < squares.length; i++) {
+        if(colors[i]){
+            squares[i].style.backgroundColor = colors[i];
+            squares[i].style.display = "block";
+        } 
+    }
+});
+
+//Chooses random "correct" color
 let pickedColor = pickColor();
-let colorDisplay = document.querySelector("#colorDisplay");
-let messageDisplay = document.querySelector("#message");
-let h1 = document.querySelector("h1");
-let resetButton = document.querySelector("#reset");
 
 //Clicking Reset Button
 resetButton.addEventListener("click", function() {
-    colors = generateRandomColors(6);
+    colors = generateRandomColors(numSquares);
     pickedColor = pickColor();
     resetButton.textContent = "New Colors";
     colorDisplay.textContent = pickedColor;
