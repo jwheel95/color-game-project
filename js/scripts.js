@@ -9,53 +9,47 @@ const h1 = document.querySelector("h1");
 const resetButton = document.querySelector("#reset");
 const easyBtn = document.querySelector("#easyBtn");
 const hardBtn = document.querySelector("#hardBtn");
-
-//Easy Mode
-easyBtn.addEventListener("click", function(){
-    easyBtn.classList.add("selected");
-    hardBtn.classList.remove("selected");
-    numSquares = 3;
-    colors = generateRandomColors(numSquares);
-    pickedColor = pickColor();
-    colorDisplay.textContent = pickedColor;
-    for(i = 0; i < squares.length; i++) {
-        if(colors[i]){
-            squares[i].style.backgroundColor = colors[i];
-        } else {
-            squares[i].style.display = "none";
-        }
-    }
-});
-
-//Hard Mode
-hardBtn.addEventListener("click", function(){
-    hardBtn.classList.add("selected");
-    easyBtn.classList.remove("selected");
-    numSquares = 6;
-    colors = generateRandomColors(numSquares);
-    pickedColor = pickColor();
-    colorDisplay.textContent = pickedColor;
-    for(i = 0; i < squares.length; i++) {
-        if(colors[i]){
-            squares[i].style.backgroundColor = colors[i];
-            squares[i].style.display = "block";
-        } 
-    }
-});
+const modeButtons = document.querySelectorAll(".mode");
 
 //Chooses random "correct" color
 let pickedColor = pickColor();
 
-//Clicking Reset Button
-resetButton.addEventListener("click", function() {
+// Event Listeners for Easy or Hard Mode btns
+for(i = 0; i < modeButtons.length; i++) {
+    modeButtons[i].addEventListener("click", function() {
+        modeButtons[0].classList.remove("selected");
+        modeButtons[1].classList.remove("selected");
+        this.classList.add("selected");
+        if(this.textContent === "Easy"){
+            numSquares = 3;
+        } else {
+            numSquares = 6;
+        }
+        reset();
+    });
+}
+
+//Reset Function
+function reset() {
     colors = generateRandomColors(numSquares);
     pickedColor = pickColor();
     resetButton.textContent = "New Colors";
+    messageDisplay.textContent= "";
     colorDisplay.textContent = pickedColor;
     for(i = 0; i < squares.length; i++){
-        squares[i].style.background = colors[i];
+        if(colors[i]){
+            squares[i].style.display = "block";
+            squares[i].style.background = colors[i];
+        } else {
+            squares[i].style.display = "none";
+        }
     }
     h1.style.backgroundColor = "steelblue";
+}
+
+//Clicking Reset Button
+resetButton.addEventListener("click", function() {
+    reset();
 })
 
 //Display RGB to guess
